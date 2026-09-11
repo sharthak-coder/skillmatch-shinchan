@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Background Circle -->
+  <circle cx="50" cy="50" r="48" fill="#FEF9C3" stroke="#1E293B" stroke-width="4"/>
+  <circle cx="50" cy="50" r="44" fill="#FACC15"/>
+
+  <!-- Cape / Shoulders -->
+  <path d="M 18 86 Q 50 78 82 86 L 88 100 L 12 100 Z" fill="#7C3AED" stroke="#1E293B" stroke-width="3.5"/>
+  <polygon points="50,80 42,92 58,92" fill="#EF4444" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Antennas -->
+  <path d="M 40 24 L 32 10 L 38 12 Z" fill="#F59E0B" stroke="#1E293B" stroke-width="2.5"/>
+  <path d="M 60 24 L 68 10 L 62 12 Z" fill="#F59E0B" stroke="#1E293B" stroke-width="2.5"/>
+
+  <!-- Helmet Shell (Teal/Green) -->
+  <path d="M 24 52 C 22 28 32 18 50 18 C 68 18 78 28 76 52 C 78 72 68 76 50 76 C 32 76 22 72 24 52 Z" fill="#10B981" stroke="#1E293B" stroke-width="3.5"/>
+
+  <!-- Golden 'A' Emblem -->
+  <circle cx="50" cy="28" r="7" fill="#F59E0B" stroke="#1E293B" stroke-width="2"/>
+  <text x="50" y="32" font-family="sans-serif" font-weight="900" font-size="9" fill="#FFFFFF" text-anchor="middle">A</text>
+
+  <!-- Superhero Mask Visor (Purple/Dark) -->
+  <path d="M 28 42 Q 50 48 72 42 Q 74 58 50 60 Q 26 58 28 42 Z" fill="#7C3AED" stroke="#1E293B" stroke-width="3"/>
+
+  <!-- White Superhero Mask Eyes -->
+  <polygon points="34,46 45,49 43,54 33,52" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.8"/>
+  <polygon points="66,46 55,49 57,54 67,52" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.8"/>
+
+  <!-- Jaw & Triumphant Grin -->
+  <path d="M 38 60 C 38 60 42 74 50 74 C 58 74 62 60 62 60 Z" fill="#FDE68A" stroke="#1E293B" stroke-width="2.5"/>
+  <path d="M 44 65 Q 50 70 56 65" fill="#FFFFFF" stroke="#1E293B" stroke-width="2" stroke-linecap="round"/>
+</svg>

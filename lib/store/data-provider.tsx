@@ -34,6 +34,20 @@ const STORAGE_KEYS = {
   REQUESTS: 'skillmatch_requests_v1',
 };
 
+function normalizeAvatar(avatarUrl?: string, name?: string): string {
+  if (!avatarUrl || avatarUrl.includes('unsplash') || avatarUrl.includes('dicebear')) {
+    const n = (name || '').toLowerCase();
+    if (n.includes('shin')) return '/avatars/shinchan.svg';
+    if (n.includes('kazama')) return '/avatars/kazama.svg';
+    if (n.includes('nene')) return '/avatars/nene.svg';
+    if (n.includes('masao')) return '/avatars/masao.svg';
+    if (n.includes('bo')) return '/avatars/bochan.svg';
+    if (n.includes('shiro')) return '/avatars/shiro.svg';
+    return '/avatars/shinchan.svg';
+  }
+  return avatarUrl;
+}
+
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const [supabase] = useState(() => createClient());
   const isDemoMode = !supabase;
@@ -52,11 +66,21 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       const storedRequests = localStorage.getItem(STORAGE_KEYS.REQUESTS);
       const storedUser = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
 
-      if (storedProfiles) setProfiles(JSON.parse(storedProfiles));
+      if (storedProfiles) {
+        const parsedProfiles: Profile[] = JSON.parse(storedProfiles).map((p: Profile) => ({
+          ...p,
+          avatar_url: normalizeAvatar(p.avatar_url, p.name),
+        }));
+        setProfiles(parsedProfiles);
+      }
       if (storedProjects) setProjects(JSON.parse(storedProjects));
       if (storedRequests) setRequests(JSON.parse(storedRequests));
       if (storedUser) {
-        setCurrentUser(JSON.parse(storedUser));
+        const parsedUser: Profile = JSON.parse(storedUser);
+        setCurrentUser({
+          ...parsedUser,
+          avatar_url: normalizeAvatar(parsedUser.avatar_url, parsedUser.name),
+        });
       } else {
         // Default to Shin-chan
         setCurrentUser(SEED_PROFILES[0]);
@@ -129,7 +153,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       id: `user-${Date.now()}`,
       name: namePart.charAt(0).toUpperCase() + namePart.slice(1),
       bio: 'New explorer ready to find project partners!',
-      avatar_url: `https://api.dicebear.com/7.x/bottts/svg?seed=${namePart}`,
+      avatar_url: '/avatars/shinchan.svg',
       year: 'Sophomore',
       major: 'Computer Science',
       skills: ['react', 'typescript'],
@@ -156,7 +180,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       id: `user-${Date.now()}`,
       name: name.trim() || 'Kasukabe Builder',
       bio: 'New student joining SkillMatch! Let’s build something fun.',
-      avatar_url: `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`,
+      avatar_url: '/avatars/shinchan.svg',
       year: 'Freshman',
       major: 'Computer Science',
       skills: [],

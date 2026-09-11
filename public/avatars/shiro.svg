@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Background Circle -->
+  <circle cx="50" cy="50" r="48" fill="#F0F9FF" stroke="#1E293B" stroke-width="4"/>
+  <circle cx="50" cy="50" r="44" fill="#BAE6FD"/>
+
+  <!-- Blue Collar -->
+  <path d="M 32 76 Q 50 84 68 76 L 70 82 Q 50 90 30 82 Z" fill="#0284C7" stroke="#1E293B" stroke-width="2.5"/>
+  <circle cx="50" cy="84" r="3.5" fill="#FACC15" stroke="#1E293B" stroke-width="1.5"/>
+
+  <!-- Floppy Puppy Ears -->
+  <ellipse cx="22" cy="48" rx="8" ry="14" fill="#FFFFFF" stroke="#1E293B" stroke-width="3.5" transform="rotate(-15, 22, 48)"/>
+  <ellipse cx="78" cy="48" rx="8" ry="14" fill="#FFFFFF" stroke="#1E293B" stroke-width="3.5" transform="rotate(15, 78, 48)"/>
+
+  <!-- Fluffy White Head -->
+  <ellipse cx="50" cy="50" rx="28" ry="25" fill="#FFFFFF" stroke="#1E293B" stroke-width="3.5"/>
+
+  <!-- Cute Shiny Black Eyes -->
+  <ellipse cx="38" cy="47" rx="4" ry="5.5" fill="#1E293B"/>
+  <circle cx="39" cy="45" r="1.5" fill="#FFFFFF"/>
+
+  <ellipse cx="62" cy="47" rx="4" ry="5.5" fill="#1E293B"/>
+  <circle cx="63" cy="45" r="1.5" fill="#FFFFFF"/>
+
+  <!-- Cute Black Button Nose -->
+  <ellipse cx="50" cy="54" rx="4.5" ry="3.5" fill="#1E293B"/>
+
+  <!-- Happy Puppy Mouth -->
+  <path d="M 44 60 Q 50 64 50 58 Q 50 64 56 60" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Soft Pink Cheeks -->
+  <circle cx="28" cy="55" r="4" fill="#FDA4AF" opacity="0.6"/>
+  <circle cx="72" cy="55" r="4" fill="#FDA4AF" opacity="0.6"/>
+</svg>

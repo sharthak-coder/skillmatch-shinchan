@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Background Circle -->
+  <circle cx="50" cy="50" r="48" fill="#FEE2E2" stroke="#1E293B" stroke-width="4"/>
+  <circle cx="50" cy="50" r="44" fill="#FACC15"/>
+  
+  <!-- Red Shirt -->
+  <path d="M 20 88 Q 50 78 80 88 L 86 100 L 14 100 Z" fill="#EF4444" stroke="#1E293B" stroke-width="3.5"/>
+  <path d="M 40 82 Q 50 88 60 82" fill="none" stroke="#1E293B" stroke-width="3"/>
+
+  <!-- Neck -->
+  <rect x="42" y="70" width="16" height="14" fill="#FCD34D" stroke="#1E293B" stroke-width="3"/>
+
+  <!-- Ears -->
+  <ellipse cx="23" cy="53" rx="5.5" ry="8" fill="#FCD34D" stroke="#1E293B" stroke-width="3"/>
+  <ellipse cx="77" cy="53" rx="5.5" ry="8" fill="#FCD34D" stroke="#1E293B" stroke-width="3"/>
+
+  <!-- Face (Iconic chubby cheeks) -->
+  <path d="M 26 50 C 24 32 32 20 50 20 C 68 20 76 32 74 50 C 78 62 68 76 50 76 C 32 76 22 62 26 50 Z" fill="#FDE68A" stroke="#1E293B" stroke-width="3.5"/>
+
+  <!-- Short Black Hair -->
+  <path d="M 28 42 C 26 30 36 20 50 20 C 64 20 74 30 72 42 C 68 30 62 24 50 24 C 38 24 32 30 28 42 Z" fill="#1E293B"/>
+
+  <!-- Signature Thick Black Eyebrows -->
+  <path d="M 30 40 Q 38 34 45 38" fill="none" stroke="#1E293B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 55 38 Q 62 34 70 40" fill="none" stroke="#1E293B" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Big Mischievous Eyes -->
+  <ellipse cx="38" cy="48" rx="4.5" ry="6" fill="#1E293B"/>
+  <circle cx="39.5" cy="46" r="1.8" fill="#FFFFFF"/>
+  <ellipse cx="62" cy="48" rx="4.5" ry="6" fill="#1E293B"/>
+  <circle cx="63.5" cy="46" r="1.8" fill="#FFFFFF"/>
+
+  <!-- Rosy Cheeks -->
+  <circle cx="29" cy="58" r="4.5" fill="#F87171" opacity="0.6"/>
+  <circle cx="71" cy="58" r="4.5" fill="#F87171" opacity="0.6"/>
+
+  <!-- Cheeky Grin -->
+  <path d="M 44 60 Q 50 67 56 60" fill="#EF4444" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

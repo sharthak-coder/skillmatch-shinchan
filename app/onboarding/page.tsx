@@ -24,11 +24,14 @@ import {
 import confetti from 'canvas-confetti';
 
 const AVATAR_OPTIONS = [
-  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&auto=format&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+  { url: '/avatars/shinchan.svg', name: 'Shin-chan' },
+  { url: '/avatars/kazama.svg', name: 'Kazama' },
+  { url: '/avatars/nene.svg', name: 'Nene' },
+  { url: '/avatars/masao.svg', name: 'Masao' },
+  { url: '/avatars/bochan.svg', name: 'Bo-chan' },
+  { url: '/avatars/shiro.svg', name: 'Shiro' },
+  { url: '/avatars/action-kamen.svg', name: 'Action Kamen' },
+  { url: '/avatars/himawari.svg', name: 'Himawari' },
 ];
 
 export default function OnboardingPage() {
@@ -41,7 +44,7 @@ export default function OnboardingPage() {
   const [bio, setBio] = useState(
     currentUser?.bio || 'Ready to build something legendary with the Kasukabe Defense Corps!'
   );
-  const [avatar, setAvatar] = useState(currentUser?.avatar_url || AVATAR_OPTIONS[0]);
+  const [avatar, setAvatar] = useState(currentUser?.avatar_url || AVATAR_OPTIONS[0].url);
   const [skills, setSkills] = useState<string[]>(currentUser?.skills || ['react', 'typescript']);
   const [interests, setInterests] = useState<string[]>(
     currentUser?.interests || ['ai & machine learning', 'game development']
@@ -81,7 +84,7 @@ export default function OnboardingPage() {
     } catch {}
 
     setIsSaving(false);
-    setStep(4); // Success Celebration step
+    setStep(4);
   };
 
   return (
@@ -125,30 +128,34 @@ export default function OnboardingPage() {
             >
               <div>
                 <Badge variant="kasukabe" className="mb-2">Profile Identity</Badge>
-                <h2 className="text-2xl font-black text-shin-ink">Tell Us About Yourself</h2>
+                <h2 className="text-2xl font-black text-shin-ink">Pick Your Kasukabe Avatar</h2>
                 <p className="text-xs text-shin-ink/60 font-semibold mt-1">
-                  Your academic major and background helps teams understand your foundation.
+                  Choose your cute Shin-chan character alter-ego and enter your major.
                 </p>
               </div>
 
               {/* Avatar Selector */}
               <div>
                 <label className="text-xs font-black text-shin-ink uppercase tracking-wider block mb-2">
-                  Choose Your Student Avatar
+                  Select Character Avatar
                 </label>
-                <div className="flex items-center gap-3">
-                  {AVATAR_OPTIONS.map((url, idx) => (
+                <div className="grid grid-cols-4 sm:grid-cols-8 gap-2.5">
+                  {AVATAR_OPTIONS.map((item) => (
                     <button
-                      key={idx}
+                      key={item.url}
                       type="button"
-                      onClick={() => setAvatar(url)}
-                      className={`relative rounded-2xl overflow-hidden border-2 transition-all ${
-                        avatar === url
-                          ? 'border-shin-red scale-110 shadow-pop-sm ring-2 ring-shin-yellow'
-                          : 'border-shin-ink opacity-70 hover:opacity-100'
+                      onClick={() => setAvatar(item.url)}
+                      title={item.name}
+                      className={`relative flex flex-col items-center p-1 rounded-2xl border-2 transition-all ${
+                        avatar === item.url
+                          ? 'border-shin-red scale-110 shadow-pop-sm ring-2 ring-shin-yellow bg-shin-yellow/20'
+                          : 'border-shin-ink/40 opacity-75 hover:opacity-100 bg-shin-canvas/50'
                       }`}
                     >
-                      <img src={url} alt="Avatar option" className="w-12 h-12 object-cover" />
+                      <img src={item.url} alt={item.name} className="w-11 h-11 object-contain" />
+                      <span className="text-[9px] font-black text-shin-ink mt-0.5 truncate w-full text-center">
+                        {item.name}
+                      </span>
                     </button>
                   ))}
                 </div>
