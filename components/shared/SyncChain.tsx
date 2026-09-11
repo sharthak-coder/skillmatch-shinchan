@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, Sparkles, Check, Star, Shield, Lock } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { Zap, Sparkles, Check, Star } from 'lucide-react';
 
 interface SyncChainProps {
   percentage: number;
@@ -36,16 +35,21 @@ export default function SyncChain({
   useEffect(() => {
     if (isLocked && showLockAnimation && !hasSnapped) {
       setHasSnapped(true);
-      // Playful confetti burst for 100% Action Kamen Lock-in!
-      try {
-        confetti({
-          particleCount: 40,
-          spread: 60,
-          origin: { y: 0.7 },
-          colors: ['#EF4444', '#FACC15', '#0284C7', '#7C3AED'],
-        });
-      } catch {
-        // Safe fallback if canvas not available
+      // Safe dynamic confetti for 100% Action Kamen Lock-in!
+      if (typeof window !== 'undefined') {
+        import('canvas-confetti')
+          .then((module) => {
+            const confettiFn = (module as any).default || module;
+            if (typeof confettiFn === 'function') {
+              confettiFn({
+                particleCount: 40,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#EF4444', '#FACC15', '#0284C7', '#7C3AED'],
+              });
+            }
+          })
+          .catch(() => {});
       }
     }
   }, [isLocked, showLockAnimation, hasSnapped]);
@@ -68,6 +72,10 @@ export default function SyncChain({
     return '#F59E0B'; // Energetic Amber/Yellow
   };
 
+  const startX = dimensions.nodeSize / 2 + 6;
+  const endX = dimensions.width - dimensions.nodeSize / 2 - 6;
+  const centerY = dimensions.height / 2;
+
   return (
     <div className={`flex flex-col items-center select-none ${className}`}>
       <div 
@@ -80,12 +88,12 @@ export default function SyncChain({
           viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
           fill="none"
         >
-          {/* Base muted guide line */}
+          {/* Base guide line */}
           <line
-            x1={dimensions.nodeSize / 2 + 6}
-            y1={dimensions.height / 2}
-            x2={dimensions.width - dimensions.nodeSize / 2 - 6}
-            y2={dimensions.height / 2}
+            x1={startX}
+            y1={centerY}
+            x2={endX}
+            y2={centerY}
             stroke="#E2E8F0"
             strokeWidth={dimensions.strokeWidth}
             strokeLinecap="round"
@@ -93,10 +101,10 @@ export default function SyncChain({
 
           {/* Flowing animated segmented chain */}
           <motion.line
-            x1={dimensions.nodeSize / 2 + 6}
-            y1={dimensions.height / 2}
-            x2={dimensions.width - dimensions.nodeSize / 2 - 6}
-            y2={dimensions.height / 2}
+            x1={startX}
+            y1={centerY}
+            x2={endX}
+            y2={centerY}
             stroke={getChainStroke()}
             strokeWidth={dimensions.strokeWidth}
             strokeDasharray={isLowMatch ? '4 8' : '8 6'}
@@ -114,13 +122,14 @@ export default function SyncChain({
           {/* Pulse beam dot for high match */}
           {percentage >= 50 && (
             <motion.circle
+              cx={startX + 4}
+              cy={centerY}
               r={dimensions.strokeWidth + 1}
               fill="#FACC15"
               stroke="#1E293B"
               strokeWidth={1.5}
               animate={{
-                cx: [dimensions.nodeSize / 2 + 8, dimensions.width - dimensions.nodeSize / 2 - 8],
-                cy: dimensions.height / 2,
+                cx: [startX + 4, endX - 4],
               }}
               transition={{
                 repeat: Infinity,
@@ -134,8 +143,8 @@ export default function SyncChain({
         {/* Node 1: "You" (Shin-chan Red Motif) */}
         <motion.div
           whileHover={interactive ? { scale: 1.15 } : undefined}
-          animate={isLocked ? { scale: [1, 1.2, 1], rotate: [0, -10, 0] } : {}}
-          transition={{ type: 'spring', stiffness: 350, damping: 15 }}
+          animate={isLocked ? { scale: [1, 1.2, 1], rotate: [0, -8, 0] } : {}}
+          transition={isLocked ? { duration: 0.4, ease: 'easeInOut' } : { type: 'spring', stiffness: 350, damping: 15 }}
           className="relative z-10 flex items-center justify-center rounded-full border-2 border-shin-ink shadow-pop-sm font-black text-white"
           style={{
             width: dimensions.nodeSize,
@@ -151,17 +160,12 @@ export default function SyncChain({
           animate={
             isLocked
               ? {
-                  scale: [1, 1.28, 1],
-                  boxShadow: [
-                    '0px 0px 0px rgba(239, 68, 68, 0)',
-                    '0px 0px 18px rgba(239, 68, 68, 0.6)',
-                    '2px 2px 0px #1E293B',
-                  ],
+                  scale: [1, 1.25, 1],
                 }
               : {}
           }
-          transition={{ type: 'spring', stiffness: 400, damping: 12 }}
-          className={`relative z-10 px-2.5 py-0.5 rounded-full border-2 border-shin-ink shadow-pop-sm flex items-center gap-1 font-black ${
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
+          className={`relative z-10 px-2.5 py-0.5 rounded-full border-2 border-shin-ink shadow-pop-sm flex items-center gap-1 font-black transition-colors ${
             isLocked
               ? 'bg-shin-red text-white'
               : isHighMatch
@@ -187,8 +191,8 @@ export default function SyncChain({
         {/* Node 2: "Target / Project" (Action Kamen Blue Motif) */}
         <motion.div
           whileHover={interactive ? { scale: 1.15 } : undefined}
-          animate={isLocked ? { scale: [1, 1.2, 1], rotate: [0, 10, 0] } : {}}
-          transition={{ type: 'spring', stiffness: 350, damping: 15 }}
+          animate={isLocked ? { scale: [1, 1.2, 1], rotate: [0, 8, 0] } : {}}
+          transition={isLocked ? { duration: 0.4, ease: 'easeInOut' } : { type: 'spring', stiffness: 350, damping: 15 }}
           className="relative z-10 flex items-center justify-center rounded-full border-2 border-shin-ink shadow-pop-sm font-black text-white"
           style={{
             width: dimensions.nodeSize,

@@ -1,15 +1,11 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { 
   Zap, 
-  Shield, 
   Dog, 
   Sparkles, 
-  Target, 
   Users, 
-  Layers, 
   CheckCircle2,
   Cpu
 } from 'lucide-react';
@@ -17,44 +13,23 @@ import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 
 export default function FeatureBento() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-  };
-
   return (
-    <section className="py-16">
-      <div className="text-center max-w-2xl mx-auto mb-12">
+    <section className="py-12">
+      <div className="text-center max-w-2xl mx-auto mb-10">
         <Badge variant="kamen" size="md" className="mb-3">
           Why University Builders Love It
         </Badge>
         <h2 className="text-3xl sm:text-4xl font-black text-shin-ink tracking-tight">
           Engineered for Real Collaboration.
         </h2>
-        <p className="text-sm text-shin-ink/70 font-semibold mt-3">
+        <p className="text-xs sm:text-sm text-shin-ink/70 font-semibold mt-2">
           Ditch spreadsheet sign-ups and ghosting Discord channels. Find peers whose skills fit yours like puzzle pieces.
         </p>
       </div>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"
-      >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {/* Bento 1: Weighted Jaccard Overlap (Large card, span 2) */}
-        <motion.div variants={itemVariants} className="md:col-span-2">
+        <div className="md:col-span-2">
           <Card className="h-full bg-white flex flex-col justify-between relative overflow-hidden">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 rounded-2xl bg-shin-red text-white flex items-center justify-center border-2 border-shin-ink shadow-pop-sm">
@@ -83,10 +58,10 @@ export default function FeatureBento() {
               </div>
             </div>
           </Card>
-        </motion.div>
+        </div>
 
         {/* Bento 2: Action Kamen Lock-in (1 col) */}
-        <motion.div variants={itemVariants}>
+        <div>
           <Card className="h-full bg-shin-yellow/15 flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 rounded-2xl bg-shin-yellow text-shin-ink flex items-center justify-center border-2 border-shin-ink shadow-pop-sm mb-4">
@@ -105,10 +80,10 @@ export default function FeatureBento() {
               <span>Zero boring status updates</span>
             </div>
           </Card>
-        </motion.div>
+        </div>
 
         {/* Bento 3: Shiro's Fluffy Seal (1 col) */}
-        <motion.div variants={itemVariants}>
+        <div>
           <Card className="h-full bg-shin-blue/10 flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 rounded-2xl bg-shin-blue text-white flex items-center justify-center border-2 border-shin-ink shadow-pop-sm mb-4">
@@ -127,10 +102,10 @@ export default function FeatureBento() {
               <span>Verified university peers</span>
             </div>
           </Card>
-        </motion.div>
+        </div>
 
         {/* Bento 4: Real-Time Team Requests (2 cols) */}
-        <motion.div variants={itemVariants} className="md:col-span-2">
+        <div className="md:col-span-2">
           <Card className="h-full bg-white flex flex-col justify-between">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 rounded-2xl bg-white text-shin-ink border-2 border-shin-ink flex items-center justify-center shadow-pop-sm">
@@ -163,9 +138,9 @@ export default function FeatureBento() {
               </div>
             </div>
           </Card>
-        </motion.div>
+        </div>
 
-      </motion.div>
+      </div>
     </section>
   );
 }

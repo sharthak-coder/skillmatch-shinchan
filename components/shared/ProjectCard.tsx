@@ -35,14 +35,7 @@ export default function ProjectCard({ project, owner }: ProjectCardProps) {
   const isFull = (project.members_count || 1) >= project.team_size;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.25 }}
-      className="card-pop flex flex-col justify-between bg-white overflow-hidden group border-2 border-shin-ink"
-    >
+    <div className="card-pop flex flex-col justify-between bg-white overflow-hidden group border-2 border-shin-ink hover:-translate-y-1 transition-transform">
       <div>
         {/* Top Header: Category & Team Status */}
         <div className="flex items-center justify-between gap-2 mb-3">
@@ -134,6 +127,6 @@ export default function ProjectCard({ project, owner }: ProjectCardProps) {
           </Link>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

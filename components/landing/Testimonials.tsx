@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Star, Trophy, Quote, Sparkles } from 'lucide-react';
-import Card from '@/components/ui/Card';
+import { Star } from 'lucide-react';
 
 const TESTIMONIALS = [
   {
@@ -34,28 +32,24 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   return (
-    <section className="py-16">
-      <div className="text-center max-w-2xl mx-auto mb-12">
+    <section className="py-12">
+      <div className="text-center max-w-2xl mx-auto mb-10">
         <span className="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full bg-shin-yellow text-shin-ink border-2 border-shin-ink shadow-pop-sm inline-block mb-3">
           ⭐ Hall of Kasukabe Legends
         </span>
         <h2 className="text-3xl sm:text-4xl font-black text-shin-ink tracking-tight">
           Teammates Who Shipped Magic Together.
         </h2>
-        <p className="text-sm text-shin-ink/70 font-semibold mt-2">
+        <p className="text-xs sm:text-sm text-shin-ink/70 font-semibold mt-2">
           From late-night pizza hackathons to venture-backed capstone projects.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {TESTIMONIALS.map((t, idx) => (
-          <motion.div
+        {TESTIMONIALS.map((t) => (
+          <div
             key={t.name}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.1, duration: 0.4 }}
-            className="card-pop p-6 bg-white flex flex-col justify-between"
+            className="card-pop p-6 bg-white flex flex-col justify-between hover:-translate-y-1 transition-transform"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -86,7 +80,7 @@ export default function Testimonials() {
                 <p className="text-[10px] font-bold text-shin-blue">{t.school}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>
