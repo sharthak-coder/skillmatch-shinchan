@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Fredoka', 'Quicksand', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  background-color: #FFFDF9;
+  color: #1E293B;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  selection-background-color: #FDE047;
+  selection-color: #0F172A;
+}
+
+::selection {
+  background-color: #FDE047;
+  color: #0F172A;
+}
+
+/* Playful Crayon Paper Grid Pattern */
+.bg-crayon-grid {
+  background-image: radial-gradient(#E2E8F0 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.bg-crayon-dots-yellow {
+  background-image: radial-gradient(#FEF08A 2px, transparent 2px);
+  background-size: 20px 20px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF9EE;
+}
+::-webkit-scrollbar-thumb {
+  background: #FACC15;
+  border-radius: 9999px;
+  border: 2px solid #FFF9EE;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #EF4444;
+}
+
+/* Tactile Pop Button Utility */
+.btn-pop {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 3px 3px 0px 0px #1E293B;
+}
+
+.btn-pop:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px #1E293B;
+}
+
+.btn-pop:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #1E293B;
+}
+
+.btn-pop-red {
+  background-color: #EF4444;
+  color: #FFFFFF;
+  border: 2px solid #1E293B;
+}
+.btn-pop-red:hover {
+  background-color: #DC2626;
+}
+
+.btn-pop-yellow {
+  background-color: #FACC15;
+  color: #1E293B;
+  border: 2px solid #1E293B;
+}
+.btn-pop-yellow:hover {
+  background-color: #EAB308;
+}
+
+.btn-pop-blue {
+  background-color: #0284C7;
+  color: #FFFFFF;
+  border: 2px solid #1E293B;
+}
+.btn-pop-blue:hover {
+  background-color: #0369A1;
+}
+
+.btn-pop-white {
+  background-color: #FFFFFF;
+  color: #1E293B;
+  border: 2px solid #1E293B;
+}
+.btn-pop-white:hover {
+  background-color: #FFFDF9;
+}
+
+/* Playful Card Box */
+.card-pop {
+  background-color: #FFFFFF;
+  border: 2px solid #1E293B;
+  border-radius: 1.25rem;
+  box-shadow: 4px 4px 0px 0px #1E293B;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-pop:hover {
+  transform: translateY(-3px);
+  box-shadow: 6px 6px 0px 0px #1E293B;
+}
