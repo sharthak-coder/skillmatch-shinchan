@@ -6,7 +6,7 @@ async function main() {
     '--headless',
     '--remote-debugging-port=9222',
     '--disable-gpu',
-    'http://localhost:3001'
+    'http://localhost:3000'
   ]);
 
   await new Promise((r) => setTimeout(r, 1500));
@@ -17,48 +17,46 @@ async function main() {
     res.on('end', () => {
       try {
         const pages = JSON.parse(data);
-        const targetPage = pages.find(p => p.url.includes('localhost:3001'));
+        const targetPage = pages.find(p => p.url.includes('localhost:3000'));
         if (!targetPage) {
-          console.log('Target page not found in:', pages.map(p => p.url));
+          console.log('Target page not found');
           chrome.kill();
           return;
         }
 
-        console.log('Target page ws:', targetPage.webSocketDebuggerUrl);
         const ws = new WebSocket(targetPage.webSocketDebuggerUrl);
 
         ws.addEventListener('open', () => {
-          console.log('Connected to target page CDP');
           ws.send(JSON.stringify({ id: 1, method: 'Runtime.enable' }));
           ws.send(JSON.stringify({ id: 2, method: 'Log.enable' }));
           ws.send(JSON.stringify({ id: 3, method: 'Page.enable' }));
           ws.send(JSON.stringify({ id: 4, method: 'Page.reload' }));
         });
 
+        let exceptions = 0;
         ws.addEventListener('message', (event) => {
           const msg = JSON.parse(event.data);
           if (msg.method === 'Runtime.exceptionThrown') {
-            console.error('\n💥 EXCEPTION THROWN:', JSON.stringify(msg.params.exceptionDetails, null, 2));
+            exceptions++;
+            console.error('💥 EXCEPTION:', JSON.stringify(msg.params.exceptionDetails, null, 2));
           } else if (msg.method === 'Runtime.consoleAPICalled') {
-            console.log('📢 CONSOLE [' + msg.params.type + ']:', msg.params.args.map(a => a.value || a.description).join(' '));
-          } else if (msg.method === 'Log.entryAdded') {
-            console.log('📝 LOG ENTRY:', msg.params.entry);
+            console.log('CONSOLE [' + msg.params.type + ']:', msg.params.args.map(a => a.value || a.description).join(' '));
           }
         });
 
         setTimeout(() => {
-          console.log('\nFinished capturing logs.');
+          console.log(`Finished: ${exceptions} exceptions detected.`);
           ws.close();
           chrome.kill();
           process.exit(0);
-        }, 4000);
+        }, 3000);
       } catch (e) {
         console.error('Error:', e.message);
         chrome.kill();
       }
     });
   }).on('error', (err) => {
-    console.error('CDP fetch error:', err.message);
+    console.error('CDP error:', err.message);
     chrome.kill();
   });
 }
