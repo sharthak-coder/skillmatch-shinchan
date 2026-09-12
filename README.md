@@ -59,7 +59,9 @@ e:/MiniInternetProduct/
 ├── app/
 │   ├── (auth)/
 │   │   ├── login/page.tsx        # Split-screen auth with 1-click demo personas
-│   │   └── signup/page.tsx       # Account creation with validation
+│   │   └── signup/page.tsx       # Account creation with email confirmation notice
+│   ├── auth/
+│   │   └── callback/route.ts     # Supabase PKCE auth callback exchange route
 │   ├── onboarding/page.tsx       # 4-step wizard (Identity -> Skills -> Interests -> Shiro Seal)
 │   ├── dashboard/page.tsx        # Incoming requests, My projects, Sent requests, quick stats
 │   ├── projects/
@@ -86,8 +88,8 @@ e:/MiniInternetProduct/
 │   ├── match/
 │   │   └── algorithm.ts          # Pure weighted Jaccard match calculator
 │   ├── store/
-│   │   └── data-provider.tsx     # Unified data layer (Supabase + zero-config Local Demo mode)
-│   ├── supabase/                 # Supabase client, server, and middleware helpers
+│   │   └── data-provider.tsx     # Supabase session single source of truth + demo switcher
+│   ├── supabase/                 # Supabase client, server, and cookie helpers
 │   ├── types.ts                  # TypeScript definitions for Profiles, Projects, Requests
 │   └── seed-data.ts              # Pre-seeded Kasukabe student personas (Shin-chan, Kazama, Nene)
 ├── supabase/
@@ -98,67 +100,100 @@ e:/MiniInternetProduct/
 
 ---
 
-## 🚀 Quickstart & Setup Instructions
+## 🚀 Quickstart & Localhost Setup Instructions
 
-### 1. Zero-Config Local Mode (Instant Out-of-the-Box)
-The application includes a seamless **Local Demo Provider** pre-seeded with Kasukabe student personas (`Shin-chan`, `Kazama`, `Nene`, `Masao`, `Bo-chan`). You can run it immediately with zero database configuration!
-
-```bash
-# Clone repository
-git clone https://github.com/your-username/skillmatch-shinchan.git
-cd skillmatch-shinchan
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### 2. Optional: Connect Real Supabase Database
-To connect your own Supabase instance:
-1. Create a project at [supabase.com](https://supabase.com).
-2. Go to the SQL Editor in Supabase and paste the contents of `supabase/schema.sql`.
-3. Create a `.env.local` file in the root directory:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key
-   ```
-4. Restart the development server: `npm run dev`.
+### Prerequisites
+- **Node.js**: v18.18+ or v20+ (recommended)
+- **Git**
+- A free **Supabase** account ([supabase.com](https://supabase.com))
 
 ---
 
-## 🎬 Screen Recording Walkthrough Script
+### Step 1: Clone the Repository & Install Dependencies
 
-When presenting or demoing SkillMatch:
-1. **Landing Page Hero (0:00 - 0:15)**:
-   - Showcase the playful light-themed Shin-chan aesthetic.
-   - Demonstrate the **Live SyncChain Simulator slider**: drag from 0% to 100% to show the animated pulses transition into the "Action Beam Lock-In" starburst!
-2. **Project Exploration & Filter (0:15 - 0:30)**:
-   - Navigate to `/projects`.
-   - Type in the debounced search bar (e.g., "AI", "React").
-   - Filter by categories and click "Matching My Skills" to witness instant client-side filtering with skeleton states.
-   - Point out the per-card `<SyncChain />` displaying match percentages calculated relative to the logged-in user.
-3. **Project Creation with Live Preview (0:30 - 0:45)**:
-   - Go to `/projects/new`.
-   - As you type the title, description, and required skill tags, show how the **Live Preview Card** on the right updates simultaneously in real time.
-4. **Join Request Flow (0:45 - 1:00)**:
-   - Open a project (e.g., Kazama's *Action Kamen Vision*).
-   - Show the detailed skill breakdown and pitch note input.
-   - Send the join request.
-5. **Account Switch & Celebratory Lock-In (1:00 - 1:20)**:
-   - Open the top profile menu and switch to **Toru Kazama**.
-   - Navigate to `/dashboard`.
-   - Point to the incoming application from Shin-chan.
-   - Click **Accept Teammate** → watch the celebratory Action Kamen 100% Lock-in, spring bounce, and confetti explosion!
+```bash
+git clone https://github.com/sharthak-coder/skillmatch-shinchan.git
+cd skillmatch-shinchan
+
+npm install
+```
+
+---
+
+### Step 2: Configure Environment Variables
+
+1. Copy the example environment file to create `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+2. Open `.env.local` and paste your Supabase project credentials:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
+   *(You can find these in your **Supabase Dashboard** under **Project Settings** → **API**).*
+
+> [!NOTE]
+> `.env.local` is included in `.gitignore` and will never be committed to GitHub.
+
+---
+
+### Step 3: Run Database Migration (Supabase)
+
+1. In your [Supabase Dashboard](https://supabase.com/dashboard), navigate to the **SQL Editor** in the left sidebar.
+2. Open the file `supabase/schema.sql` from this project.
+3. Copy its entire content, paste it into the Supabase SQL Editor, and click **Run**.
+   - This creates all necessary tables (`profiles`, `skills`, `interests`, `projects`, `join_requests`).
+   - Configures Row Level Security (RLS) policies.
+   - Sets up the `on_auth_user_created` trigger for automatic profile generation upon user registration.
+
+---
+
+### Step 4: Configure Supabase Auth URLs (for Localhost & Production)
+
+In your **Supabase Dashboard** → **Authentication** → **URL Configuration**:
+
+1. **Site URL**:
+   - For local development: `http://localhost:3000`
+   - For production (Vercel): `https://skillmatch-shinchan.vercel.app`
+
+2. **Redirect URLs**: Add the following URLs to the allowlist:
+   - `http://localhost:3000/auth/callback`
+   - `http://localhost:3000/**`
+   - `https://skillmatch-shinchan.vercel.app/auth/callback`
+   - `https://skillmatch-shinchan.vercel.app/**`
+
+Click **Save**.
+
+---
+
+### Step 5: Start the Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+### Step 6: Testing Authentication & Demo Accounts
+
+- **New User Flow**: Register a new student account at `/signup`. Check your email for the confirmation link and click it to access your personal dashboard.
+- **1-Click Demo Personas**: On the `/login` page, you can instantly test pre-seeded Kasukabe accounts (**Shinnosuke**, **Toru Kazama**, or **Nene**) with 1 click.
+- **Clean Logout**: Clicking **Log Out** terminates the session and returns you to a clean, unauthenticated state with zero automatic demo fallback.
 
 ---
 
 ## 🚢 Deployment to Vercel
 
-SkillMatch is pre-configured for zero-config deployment on Vercel:
-1. Push your code to GitHub.
-2. Import repository into [Vercel](https://vercel.com).
-3. (Optional) Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` environment variables. If left blank, the app will deploy in fully functional zero-config Demo Mode!
-4. Deploy!
+SkillMatch is deployed live at: **[https://skillmatch-shinchan.vercel.app](https://skillmatch-shinchan.vercel.app)**
+
+To deploy your own copy on Vercel:
+1. Push your repository to GitHub.
+2. Log in to [Vercel](https://vercel.com) and click **Add New... → Project**.
+3. Select your `skillmatch-shinchan` repository.
+4. Under **Environment Variables**, add:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+5. Click **Deploy**!
