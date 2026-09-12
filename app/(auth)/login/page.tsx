@@ -13,6 +13,7 @@ import {
   AlertCircle,
   Sparkles
 } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -47,6 +48,24 @@ export default function LoginPage() {
     router.push('/dashboard');
   };
 
+  const handleOAuth = async (provider: 'google' | 'github' | 'azure') => {
+    setErrorMessage('');
+    const supabase = createClient();
+    if (supabase) {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: provider === 'azure' ? 'azure' : provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+        },
+      });
+      if (error) {
+        setErrorMessage(error.message);
+      }
+    } else {
+      setErrorMessage(`${provider} OAuth is not enabled. Please use your email/password or the 1-Click Demo accounts.`);
+    }
+  };
+
   return (
     <div className="relative min-h-[85vh] flex items-center justify-center py-4 sm:py-8 px-2 sm:px-4">
       {/* Background Watermarks */}
@@ -70,6 +89,7 @@ export default function LoginPage() {
               src="/images/login-left-panel.png"
               alt="Find Your Project Partner — Kasukabe Defense Squad"
               className="w-full h-auto object-contain rounded-3xl"
+              style={{ maxWidth: '580px', width: '100%', height: 'auto', display: 'block' }}
             />
           </div>
         </div>
@@ -168,7 +188,7 @@ export default function LoginPage() {
                       onClick={() => handleDemoLogin(p.id)}
                       className="flex items-center justify-center gap-1.5 p-2 rounded-xl bg-shin-canvas hover:bg-shin-yellow/30 border border-slate-300 text-slate-800 text-xs font-bold transition-all shadow-sm"
                     >
-                      <img src={p.avatar_url} alt={p.name} className="w-5 h-5 rounded-full" />
+                      <img src={p.avatar_url} alt={p.name} className="w-5 h-5 rounded-full object-cover" style={{ width: '20px', height: '20px', maxWidth: '20px' }} />
                       <span className="truncate">{p.name.split(' ')[0]}</span>
                     </button>
                   ))}
@@ -189,7 +209,7 @@ export default function LoginPage() {
                 {/* Google Button */}
                 <button
                   type="button"
-                  onClick={() => handleDemoLogin('user-shinchan')}
+                  onClick={() => handleOAuth('google')}
                   className="flex items-center justify-center py-2.5 px-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
                   title="Sign in with Google"
                 >
@@ -204,7 +224,7 @@ export default function LoginPage() {
                 {/* GitHub Button */}
                 <button
                   type="button"
-                  onClick={() => handleDemoLogin('user-kazama')}
+                  onClick={() => handleOAuth('github')}
                   className="flex items-center justify-center py-2.5 px-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
                   title="Sign in with GitHub"
                 >
@@ -216,7 +236,7 @@ export default function LoginPage() {
                 {/* Microsoft Button */}
                 <button
                   type="button"
-                  onClick={() => handleDemoLogin('user-nene')}
+                  onClick={() => handleOAuth('azure')}
                   className="flex items-center justify-center py-2.5 px-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
                   title="Sign in with Microsoft"
                 >
@@ -248,6 +268,7 @@ export default function LoginPage() {
                 src="/images/shinchan-face-quote.png"
                 alt="Shin-chan"
                 className="w-10 h-10 rounded-full flex-shrink-0 object-contain"
+                style={{ width: '40px', height: '40px', maxWidth: '40px', minWidth: '40px' }}
                 onError={(e) => {
                   // Fallback to SVG if png not found
                   (e.target as HTMLImageElement).src = '/avatars/shinchan.svg';

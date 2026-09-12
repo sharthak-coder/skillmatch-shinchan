@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useData } from '@/lib/store/data-provider';
 import { 
   Sparkles, 
@@ -20,9 +20,17 @@ import {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { currentUser, logout, loginDemoUser, profiles } = useData();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+
+  const handleLogout = async () => {
+    setUserDropdownOpen(false);
+    setMobileMenuOpen(false);
+    await logout();
+    router.push('/login');
+  };
 
   const isActive = (path: string) => pathname === path;
 
@@ -58,6 +66,7 @@ export default function Navbar() {
               src="/avatars/shinchan.svg"
               alt="Shin-chan"
               className="w-9 h-9 rounded-full border-2 border-shin-ink shadow-pop-sm"
+              style={{ width: '36px', height: '36px', maxWidth: '36px', minWidth: '36px', objectFit: 'cover' }}
             />
           </div>
         ) : (
@@ -177,11 +186,8 @@ export default function Navbar() {
                       </Link>
 
                       <button
-                        onClick={() => {
-                          logout();
-                          setUserDropdownOpen(false);
-                        }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-xs font-bold text-shin-red hover:bg-red-50 rounded-xl transition-colors"
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-xs font-bold text-shin-red hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                       >
                         <LogOut className="w-4 h-4" />
                         Log Out
@@ -257,11 +263,8 @@ export default function Navbar() {
                 <span className="text-xs font-bold text-shin-ink">{currentUser.name}</span>
               </div>
               <button
-                onClick={() => {
-                  logout();
-                  setMobileMenuOpen(false);
-                }}
-                className="text-left text-xs font-bold text-shin-red p-2"
+                onClick={handleLogout}
+                className="text-left text-xs font-bold text-shin-red p-2 cursor-pointer"
               >
                 Log Out
               </button>
